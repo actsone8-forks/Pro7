@@ -44,14 +44,38 @@ User.findOne({ email: req.body.email }).then(
     );
   }
 
-  exports.signUp = (req,res,next)=>{
+const bcrypt = require('bcrypt');
+exports.signUp = (req,res,next)=>{
+  bcrypt.hash(req.body.password, 10).then(
+    (hash) => {
+        const user = new User({
+            email: req.body.email,
+            password: hash,
+            fullName: req.body.fullName,
+        });
+        user.save().then(
+            () => {
+                res.status(201).json({
+                    message: 'User added successfully!'
+                });
+            }
+        ).catch(
+            (error) => {
+                res.status(500).json({
+                    error: error
+                });
+            }
+        );
+    }
+  );
+}
 
     // method named create 
    // to find user you can use findOne
    //to get all users findAll
    // to delete user destroy
    // findOne({where : { id : req.body.id }})
-  }
+  
 
   exports.getAll = (req,res,next)=>{
 
