@@ -1,4 +1,5 @@
 const db = require("../Models");
+const bcrypt = require("bcrypt");
 const User = db.User;
 
 exports.login =(req,res,next)=>{
