@@ -1,51 +1,47 @@
 const db = require("../Models");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 const User = db.User;
 
-exports.login =(req,res,next)=>{
-
-// add your login logic here 
-User.findOne({ email: req.body.email }).then(
-      (user) => {
-        if (!user) {
-          return res.status(401).json({
-            error: new Error('User not found!')
-          });
-        }
-        bcrypt.compare(req.body.password, user.password).then(
-          (valid) => {
-            if (!valid) {
-              return res.status(401).json({
-                error: new Error('Incorrect password!')
-              });
-            }
-            const token = jwt.sign(
-              { userId: user._id },
-              'RANDOM_TOKEN_SECRET',
-              { expiresIn: '24h' });
-            res.status(200).json({
-              userId: user._id,
-              token: token
-            });
-          }
-        ).catch(
-          (error) => {
-            res.status(500).json({
-              error: error
-            });
-          }
-        );
-      }
-    ).catch(
-      (error) => {
-        res.status(500).json({
-          error: error
+exports.login = async(req,res,next)=>{
+  const user = await User.findOne({ 
+    where:{
+      email: req.body.email
+    }
+  })
+  console.log(user);
+  if (!user) {
+    return res.status(401).json({
+      error: 'User not found!'
+    });
+  }
+  bcrypt.compare(req.body.password, user.password).then(
+    (valid) => {
+      if (!valid) {
+        return res.status(401).json({
+          error: 'Incorrect password!'
         });
       }
-    );
-  }
+      const token = jwt.sign(
+        { userId: user.dataValues.id },
+        'RANDOM_TOKEN_SECRET',
+        { expiresIn: '24h' });
+      res.status(200).json({
+        userId: user.dataValues.id,
+        token: token
+      });
+    }
+  ).catch(
+    (error) => {
+      return res.status(500).json({
+        error: error
+      });
+    }
+  );
+}
 
-const bcrypt = require('bcrypt');
+  
+
 exports.signUp = (req,res,next)=>{
   bcrypt.hash(req.body.password, 10).then(
     (hash) => {
@@ -70,24 +66,16 @@ exports.signUp = (req,res,next)=>{
     }
   );
 }
-
-    // method named create 
-   // to find user you can use findOne
-   //to get all users findAll
-   // to delete user destroy
-   // findOne({where : { id : req.body.id }})
   
-
-  exports.getAll = (req,res,next)=>{
-
-    User.findAll().then(data =>{
-        res.send(data)
-    }).catch(err =>{
-        res.status(500).send({
-            message : err.message
-        })
-    })
-  }
+exports.getAll = (req,res,next)=>{
+  User.findAll().then(data =>{
+      res.send(data)
+  }).catch(err =>{
+      res.status(500).send({
+          message : err.message
+      })
+  })
+}
 
 
     

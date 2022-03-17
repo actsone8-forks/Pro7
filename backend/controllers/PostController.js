@@ -1,7 +1,7 @@
 const fs = require('fs');
-const token = require("../middleware/token");
-const db = require("../models"); // to access db tables
-const { post } = require('../Routes/UserRoutes');
+const db = require("../Models"); // to access db tables
+//const { post } = require('../Routes/UserRoutes');
+const Post = db.Post;
 
 
 exports.createPost = (req, res, next) => {
@@ -28,7 +28,7 @@ exports.createPost = (req, res, next) => {
     );
 };
   
-  exports.updatePost = (req, res, next) => {
+exports.updatePost = (req, res, next) => {
         Post.updateOne({_id: req.params.id}, post).then(
           () => {
             res.status(201).json({
@@ -43,7 +43,8 @@ exports.createPost = (req, res, next) => {
           }
         );
 };
-  exports.deletePost = (req, res, next) => {
+
+exports.deletePost = (req, res, next) => {
     Post.findOne({_id: req.params.id}).then(
         (post) => {
           const filename = post.imageUrl.split('/images/')[1];
@@ -64,22 +65,21 @@ exports.createPost = (req, res, next) => {
           });
         }
       );
-    };
-  exports.getallPosts = (req, res, next) => {
-    Post.find().then(
-        (posts) => {
-          res.status(200).json(posts);
-        }
-      ).catch(
-        (error) => {
-          res.status(400).json({
-            error: error
-          });
-        }
-      );
-    };
+};
 
-
+exports.getAllPosts = (req, res, next) => {
+  Post.findAll().then(
+      (posts) => {
+        res.status(200).json(posts);
+      }
+    ).catch(
+      (error) => {
+        res.status(400).json({
+          error: error
+        });
+      }
+    );
+};
 
 exports.likePost = async (req, res, next) => {
   try {
@@ -124,6 +124,7 @@ exports.addComment = async (req, res) => {
     return res.status(500).send({ error: "Server error" });
   }
 };
+
 exports.deleteComment = async (req, res) => {
   try {
     const userId = token.getUserId(req);
