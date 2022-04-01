@@ -1,15 +1,16 @@
 @baseUrl = http://localhost:3000/api/user
 
-# Sends back a table with all the elements
+# Sends back all users
 GET {{baseUrl}}/
 
 ###
 
-POST {{baseUrl}}/api/signup
+# Signs up a new user
+POST {{baseUrl}}/signup
 content-type: application/json
 
 {
-    "firstName": "Bruce Wayne",
+    "fullName": "Bruce Wayne",
     "password": "secret123",
     "email": "bruce.wayne@gotham.com"
 }
