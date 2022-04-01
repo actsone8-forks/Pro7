@@ -2,6 +2,7 @@ const fs = require('fs');
 const db = require("../Models"); // to access db tables
 //const { post } = require('../Routes/UserRoutes');
 const Post = db.Post;
+//const token = require("..middleware/token");
 
 
 exports.createPost = (req, res, next) => {
