@@ -1,0 +1,16 @@
+@baseUrl = http://localhost:3000/api/user
+
+# Sends back all users
+GET {{baseUrl}}/
+
+###
+
+# Signs up a new user
+POST {{baseUrl}}/signup
+content-type: application/json
+
+{
+    "fullName": "Bruce Wayne",
+    "password": "secret123",
+    "email": "bruce.wayne@gotham.com"
+}
