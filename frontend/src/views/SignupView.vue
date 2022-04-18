@@ -1,13 +1,27 @@
 <template>
   <div class="container">
-    <h2>Login</h2>
+    <h2>Sign up</h2>
     <hr />
     <form>
-      <label for="usr">email:</label>
-      <input type="text" class="form-control" id="usr" />
+      <label for="usr">First name:</label>
+      <input
+        v-model="firstName"
+        type="text"
+        class="form-control"
+        id="firstName"
+      />
+      <label for="pwd">Last name:</label>
+      <input
+        v-model="lastName"
+        type="text"
+        class="form-control"
+        id="lastName"
+      />
+      <label for="pwd">email:</label>
+      <input v-model="email" type="text" class="form-control" id="email" />
       <label for="usr">Password:</label>
-      <input type="password" class="form-control" id="pwd" />
-      <button @click="onSubmit"  class="btn">Login</button>
+      <input v-model="password" type="password" class="form-control" id="pwd" />
+      <button @click="onSubmit" class="btn">Sign up</button>
     </form>
   </div>
 </template>
@@ -16,19 +30,19 @@
 export default {
   methods: {
     onSubmit() {
-      console.log("form submitted");
-      //TO DO use fetch api for user credentials POST to the backend 
-      //if succsess store tocken (localstorage)
-    }
+      let fullName = this.firstName + " " + this.lastName;
+      console.log(fullName);
+      //TO DO create fetch request for http POST sending user form info above
+      //checke for success response for be server 201
+    },
   },
-  data() {
-    return {
-      label: ""
-    };
-  }
+  data: () => ({
+    firstName: "",
+    lastName: "",
+    email:"",
+    password:"",
+  }),
 };
-
-
 </script>
 
 <style>
@@ -75,7 +89,7 @@ button:hover {
   text-transform: uppercase;
   cursor: pointer;
   margin-top: 1px;
-  width: 10%;
+  width: 100px;
   margin: auto;
 }
 </style>

@@ -14,3 +14,13 @@ content-type: application/json
     "password": "secret123",
     "email": "bruce.wayne@gotham.com"
 }
+
+###
+
+POST {{baseUrl}}/login
+content-type: application/json
+
+{
+    "password": "secret123",
+    "email": "bruce.wayne@gotham.com"
+}
