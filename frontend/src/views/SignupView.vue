@@ -30,7 +30,7 @@
 export default {
   methods: {
     onSubmit() {
-      let fullName = this.firstName + " " + this.lastName;
+      let fullName = this.firstName + " " + this.lastName + " " + this.email;
       console.log(fullName);
       //TO DO create fetch request for http POST sending user form info above
       //checke for success response for be server 201
@@ -39,8 +39,8 @@ export default {
   data: () => ({
     firstName: "",
     lastName: "",
-    email:"",
-    password:"",
+    email: "",
+    password: "",
   }),
 };
 </script>

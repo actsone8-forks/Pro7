@@ -4,31 +4,42 @@
     <hr />
     <form>
       <label for="usr">email:</label>
-      <input type="text" class="form-control" id="usr" />
+      <input v-model="email" type="text" class="form-control" id="usr" />
       <label for="usr">Password:</label>
-      <input type="password" class="form-control" id="pwd" />
-      <button @click="onSubmit"  class="btn">Login</button>
+      <input v-model="password" type="password" class="form-control" id="pwd" />
+      <button @click="onSubmit" class="btn" method="post">Login</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
+  name: "CreatePost",
+  data: () => ({
+    email: "",
+    password: "",
+  }),
   methods: {
-    onSubmit() {
-      console.log("form submitted");
-      //TO DO use fetch api for user credentials POST to the backend 
-      //if succsess store tocken (localstorage)
-    }
+    onSubmit(e) {
+      this.axios
+        .post("http://localhost:3000/api/user/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((result) => {
+          console.warn(result.data.token);
+          // TODO store token localstorage
+        });
+      // TODO catch error for invalid login and display for user
+      e.preventDefault();
+    },
   },
-  data() {
-    return {
-      label: ""
-    };
-  }
 };
-
-
+// localStorage.setItem('usertoken',result.data.token)
+//   onSubmit() {
+//     console.log("form submitted");
+//     //TO DO use fetch api for user credentials POST to the backend
+//     //if succsess store token (localstorage)
 </script>
 
 <style>

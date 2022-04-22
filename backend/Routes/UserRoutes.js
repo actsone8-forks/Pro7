@@ -10,5 +10,7 @@ router.post('/login', userController.login)
 
 router.get('/', userController.getAll)
 
+// router.delete("/accounts/:id", auth, userController.deleteAccount);
+
 
 module.exports =router;
