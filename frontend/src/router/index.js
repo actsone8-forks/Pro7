@@ -3,7 +3,7 @@ import About from '../views/AboutView'
 import HomeView from '../views/HomeView'
 import Login from '../views/LoginView'
 import Signup from '../views/SignupView'
-
+import DeleteUser from '../views/DeleteUser'
 const routes = [
   {
     path: '/',
@@ -24,6 +24,11 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: Signup
+  },
+  {
+    path: '/deleteUser',
+    name: 'deleteUser',
+    component: DeleteUser
   }
 ]
 

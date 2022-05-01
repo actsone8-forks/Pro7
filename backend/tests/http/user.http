@@ -24,3 +24,7 @@ content-type: application/json
     "password": "secret123",
     "email": "bruce.wayne@gotham.com"
 }
+
+###
+    DELETE {{baseUrl}}/user/123
+

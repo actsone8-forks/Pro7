@@ -1,45 +1,47 @@
 <template>
   <div class="container">
+    <div v-if="error" class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
     <h2>Login</h2>
     <hr />
     <form>
-      <label for="usr">email:</label>
+      <label for="usr">Email:</label>
       <input v-model="email" type="text" class="form-control" id="usr" />
       <label for="usr">Password:</label>
       <input v-model="password" type="password" class="form-control" id="pwd" />
-      <button @click="onSubmit" class="btn" method="post">Login</button>
+      <button @click.prevent="loginPage" class="btn" method="post">Login</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-  name: "CreatePost",
+  name: "LoginPage",
   data: () => ({
     email: "",
     password: "",
+    error: "",
   }),
   methods: {
-    onSubmit(e) {
-      this.axios
-        .post("http://localhost:3000/api/user/login", {
-          email: this.email,
-          password: this.password,
-        })
-        .then((result) => {
-          console.warn(result.data.token);
-          // TODO store token localstorage
-        });
-      // TODO catch error for invalid login and display for user
-      e.preventDefault();
+    login() {
+      try {
+        this.axios
+          .post("http://localhost:3000/api/user/login", {
+            email: this.email,
+            password: this.password,
+          })
+          .then((result) => {
+            console.warn(result.data.token);
+            localStorage.setItem("token", result.data.token);
+            this.$router.push("/");
+          });
+      } catch (e) {
+        this.error = "Invalid username/password";
+      }
     },
   },
 };
-// localStorage.setItem('usertoken',result.data.token)
-//   onSubmit() {
-//     console.log("form submitted");
-//     //TO DO use fetch api for user credentials POST to the backend
-//     //if succsess store token (localstorage)
 </script>
 
 <style>

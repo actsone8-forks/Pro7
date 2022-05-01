@@ -1,9 +1,7 @@
 <template>
   <div class="home">
     <div class="row">
-      <div class="col-md-3 homeColumn">
-        <UserCard />
-      </div>
+      <div class="col-md-3 homeColumn">Chit-chat at work!</div>
       <div class="col-md-9 homeColumn2">
         <CreatePost />
       </div>
@@ -13,13 +11,11 @@
 
 <script>
 import CreatePost from "../components/CreatePost.vue";
-import UserCard from "../components/UserCard.vue";
 
 export default {
   name: "HomeView",
   components: {
     CreatePost,
-    UserCard,
   },
 };
 </script>

@@ -21,27 +21,32 @@
       <input v-model="email" type="text" class="form-control" id="email" />
       <label for="usr">Password:</label>
       <input v-model="password" type="password" class="form-control" id="pwd" />
-      <button @click="onSubmit" class="btn">Sign up</button>
+      <button @click.prevent="onSubmit" class="btn">Sign up</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    onSubmit() {
-      let fullName = this.firstName + " " + this.lastName + " " + this.email;
-      console.log(fullName);
-      //TO DO create fetch request for http POST sending user form info above
-      //checke for success response for be server 201
-    },
-  },
   data: () => ({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   }),
+  methods: {
+    onSubmit() {
+      this.axios.post("http://localhost:3000/api/user/signup", {
+        fistName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        password: this.password,
+      });
+      console.log(this.firstName);
+      alert("processing");
+      this.$router.push("/login");
+    },
+  },
 };
 </script>
 

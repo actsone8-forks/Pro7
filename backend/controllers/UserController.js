@@ -77,23 +77,14 @@ exports.getAll = (req, res, next) => {
   })
 }
 
-exports.deleteAccount = async (req, res) => {
-	try {
-		const id = req.params.id;
-		const user = await db.User.findOne({ where: { id: id } });
-		if (user.photo !== null) {
-			const filename = user.photo.split("/upload")[1];
-			fs.unlink(`upload/${filename}`, () => {
-				// if photo exists it'll delete and the account
-				db.User.destroy({ where: { id: id } });
-				res.status(200).json({ messageReturn: "deleted user" });
-			});
-		} else {
-			db.User.destroy({ where: { id: id } }); // delete the account
-			res.status(200).json({ messageReturn: "deleted user" });
-		}
-	} catch (error) {
-		return res.status(500).send({ error: "Server error" });
-	}
+exports.delete = function (req, res) {
+  User.findByIdAndRemove
+  //TODO delete user for req.params.id, use seqlize
+  const user = findByIdAndDelete(req.params.id)
+    .exec()
+    .then(doc => {
+      if (!doc) { return res.status(404).end(); }
+      return res.status(204).end();
+    })
+    .catch(err => next(err));
 };
-

@@ -21,6 +21,9 @@
           <router-link class="nav-link" to="/about">About</router-link>
           <router-link class="nav-link" to="/signup">Signup</router-link>
           <router-link class="nav-link" to="/login">Login</router-link>
+          <router-link class="nav-link" to="/deleteuser"
+            >Delete User</router-link
+          >
         </div>
       </div>
     </div>
