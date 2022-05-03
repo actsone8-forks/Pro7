@@ -77,14 +77,10 @@ exports.getAll = (req, res, next) => {
   })
 }
 
-exports.delete = function (req, res) {
-  User.findByIdAndRemove
-  //TODO delete user for req.params.id, use seqlize
-  const user = findByIdAndDelete(req.params.id)
-    .exec()
-    .then(doc => {
-      if (!doc) { return res.status(404).end(); }
-      return res.status(204).end();
-    })
-    .catch(err => next(err));
+exports.delete = (req, res) => {
+  db.User.destroy({
+    where: {
+      id: req.params.id
+    }
+  }).then(() => res.send("success"));
 };
