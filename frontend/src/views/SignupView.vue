@@ -42,8 +42,7 @@ export default {
         email: this.email,
         password: this.password,
       });
-      console.log(this.firstName);
-      alert("processing");
+      alert("successful");
       this.$router.push("/login");
     },
   },

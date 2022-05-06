@@ -17,14 +17,14 @@
 
 <script>
 export default {
-  name: "LoginPage",
+  name: "loginPage",
   data: () => ({
     email: "",
     password: "",
     error: "",
   }),
   methods: {
-    login() {
+    loginPage() {
       try {
         this.axios
           .post("http://localhost:3000/api/user/login", {

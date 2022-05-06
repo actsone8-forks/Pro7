@@ -5,6 +5,7 @@
       <div class="col-md-9 homeColumn2">
         <CreatePost :posts="posts" @postTweet="postTweet" />
         <FeedPage :posts="posts" />
+        <DeleteUser/>
       </div>
     </div>
   </div>

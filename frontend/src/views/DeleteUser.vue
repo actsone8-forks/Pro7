@@ -5,14 +5,40 @@
     <form>
       <h3>Delete your Groupomania account!</h3>
       <h5>Are you sure? Your profile will be removed from Groupomania site!</h5>
-      <button @click.prevent="deleteUser" class="btn" method="post">
+      <button @click.prevent="deleteUser(user.id)" class="btn" method="post">
         Delete user
       </button>
     </form>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  name: 'DeleteUser',
+  data(){
+    return{users:null}
+  },
+  methods:{
+    getData()
+    {
+this.axios.get('http://localhost:3000/user').then((result)=>{
+  console.warn(result)
+  this.user=result.data
+})
+    },
+    deleteUser(id)
+    {
+      this.axios.delete("http://localhost:3000/user/"+id).then(()=>{
+  this.getData();
+   alert("successful");
+      this.$router.push("/login");
+})
+    }
+  },
+  mounted()
+    {
+    this.getData()
+  }
+};
 </script>
 <style>
 form {
@@ -60,7 +86,8 @@ button:hover {
   margin-top: 1px;
   margin: auto;
 }
-h3, h5{
-    color: red;
+h3,
+h5 {
+  color: red;
 }
 </style>
