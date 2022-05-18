@@ -19,13 +19,7 @@ export default {
   name: "HomeView",
   data() {
     return {
-      posts: [
-        {
-          user: "Tom",
-          post: "My first post here",
-        },
-        { user: "Eelika", post: "I`m feeling good today" },
-      ],
+      posts: [],
     };
   },
   components: {
@@ -34,7 +28,14 @@ export default {
   },
   methods: {
     postTweet(post) {
-      this.posts.push(post);
+      try {
+        if (post.post === "" || post.user === '') throw "Input required";
+        this.posts.unshift(post);
+        localStorage.setItem('posts', JSON.stringify(this.posts))
+      } catch (error) {
+        alert(error);
+      }
+     
     },
   },
 };

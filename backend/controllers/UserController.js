@@ -78,9 +78,26 @@ exports.getAll = (req, res, next) => {
 }
 
 exports.delete = (req, res) => {
+  const id = req.params.id;
+    // FIXME verify req.token.userId === req.params.id to prevent hackers from deleting other user accounts
   db.User.destroy({
-    where: {
-      id: req.params.id
-    }
-  }).then(() => res.send("success"));
-};
+    where:  {id: id }
+  })
+  .then(num => {
+		if (num === 0) {
+		  res.send({
+			message: "User was deleted successfully!"
+		  });
+		} else {
+		  res.send({
+			message: `Cannot delete user with id=${id}`
+		  });
+		}
+	  })
+	  .catch(err => {
+		res.status(500).send({
+		  message: "Could not delete User with id=" + id
+		});
+	  });
+  };
+

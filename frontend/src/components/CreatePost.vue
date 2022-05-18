@@ -44,6 +44,7 @@ export default {
     postTweet() {
       let newPost = { user: "username", post: this.post };
       this.$emit("postTweet", newPost);
+      this.post ="";
     },
   },
 };
