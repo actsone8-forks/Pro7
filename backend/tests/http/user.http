@@ -26,5 +26,5 @@ content-type: application/json
 }
 
 ###
-    DELETE {{baseUrl}}/user/123
+    DELETE {{baseUrl}}/123
 

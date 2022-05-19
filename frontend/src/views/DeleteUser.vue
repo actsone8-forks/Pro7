@@ -24,23 +24,24 @@ this.axios.get('http://localhost:3000/user').then((result)=>{
   this.user=result.data
 })
     },
-    deleteUser(id)
-      // TODO grab the currently logged on user id stored by login in Vuex store
+    deleteUser() // FIXME id is undefined, remove method arguement 'id'
     {
-      
+      // TODO grab the currently logged on user id stored by login in Vuex store
+      //     by using the Vuex store's getter you add in store/index.js
+
       let response = confirm('are you sure?')
       if(response){
           this.$store.dispatch('deleteUser', id);
         }
       
       // TODO add JWT token to request header
-
+      // FIXME this URL wont work until the route is fixed on the backend
       this.axios.delete("http://localhost:3000/user/"+id).then(()=>{
          // TODO Vue code needs formatting (may need to install Vetur)
   this.getData();
    alert("successful");
       this.$router.push("/login");
-})
+}) // FIXME add catch block in case there was an error HTTP status returned
     }
   },
   mounted()
