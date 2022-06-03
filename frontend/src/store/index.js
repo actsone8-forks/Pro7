@@ -5,6 +5,9 @@ export default createStore({
     userId: null
   },
   getters: {
+    user (state) {
+			return state.user
+		},
   },
   mutations: {
     DELETE_USER(state, userId){

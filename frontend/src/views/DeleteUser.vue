@@ -13,40 +13,38 @@
 </template>
 <script>
 export default {
-  name: 'DeleteUser',
-  data(){
-  },
-  methods:{
-    getData()
-    {
-this.axios.get('http://localhost:3000/user').then((result)=>{
-  console.warn(result)
-  this.user=result.data
-})
+  name: "DeleteUser",
+  data() { },
+  methods: {
+    getData() {
+      this.axios.get("http://localhost:3000/user").then((result) => {
+        console.warn(result);
+        this.user = result.data;
+      });
     },
     deleteUser(id)
-      // TODO grab the currently logged on user id stored by login in Vuex store
+    // TODO grab the currently logged on user id stored by login in Vuex store
     {
-      
-      let response = confirm('are you sure?')
-      if(response){
-          this.$store.dispatch('deleteUser', id);
-        }
-      
+      this.$store.dispatch("deleteUser", id);
+
+      let response = confirm("are you sure?");
+      if (response) {
+        this.$store.dispatch("deleteUser", id);
+      }
+
       // TODO add JWT token to request header
 
-      this.axios.delete("http://localhost:3000/user/"+id).then(()=>{
-         // TODO Vue code needs formatting (may need to install Vetur)
-  this.getData();
-   alert("successful");
-      this.$router.push("/login");
-})
-    }
+      this.axios.delete("http://localhost:3000/user/" + id).then(() => {
+        // TODO Vue code needs formatting (may need to install Vetur)
+        this.getData();
+        alert("successful");
+        this.$router.push("/login");
+      });
+    },
   },
-  mounted()
-    {
-    this.getData()
-  }
+  mounted() {
+    this.getData();
+  },
 };
 </script>
 <style>
@@ -65,12 +63,14 @@ form {
   margin-top: 50px;
   margin-bottom: 80px;
 }
+
 label {
   font-family: Monsterrat;
   margin: auto;
   margin-top: 5px;
   margin-bottom: 8px;
 }
+
 button {
   display: block;
   background: #1c92d2;
@@ -81,10 +81,12 @@ button {
   margin-top: 8px;
   width: 100%;
 }
+
 button:hover {
   background: beige;
   transition: 0.5s;
 }
+
 .btn {
   display: block;
   background: #1c92d2;
@@ -95,6 +97,7 @@ button:hover {
   margin-top: 1px;
   margin: auto;
 }
+
 h3,
 h5 {
   color: red;
