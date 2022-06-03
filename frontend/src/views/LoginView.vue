@@ -35,7 +35,9 @@ export default {
             console.warn(result.data.token);
             localStorage.setItem("token", result.data.token);
             // TODO put user id into store $store dispatch
-            this.$store.dispatch("login", result.data.user.id);
+            this.$store.dispatch('getUserById', response.data.userId)
+             // FIXME 'login' action does not exist
+            this.$store.dispatch("user", result.data.user);
             this.$router.push("/");
           });
       } catch (e) {
