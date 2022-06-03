@@ -35,7 +35,7 @@ export default {
             console.warn(result.data.token);
             localStorage.setItem("token", result.data.token);
             // TODO put user id into store $store dispatch
-            this.$store.dispatch('login', result.data.user.id);
+            this.$store.dispatch("login", result.data.user.id);
             this.$router.push("/");
           });
       } catch (e) {
