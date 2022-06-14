@@ -17,10 +17,6 @@ export default createStore({
     // },
   },
   actions: {
-    // TODO add 'login' action method which accepts a userId in its payload, and which sets the userId in the store's state
-    // NOTE you only need for the first argument "{ store }" (for setting state)
-    //     and the second argument is the userId you pass in
-    // see https://vuex.vuejs.org/guide/actions.html#composing-actions
     login({ state: state }, userId) {
       state.userId = userId
     }
