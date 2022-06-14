@@ -5,9 +5,9 @@
     <form>
       <h3>Delete your Groupomania account!</h3>
       <!-- FIXME user is undefined here -->
-      <button @click.prevent="deleteUser(id)" class="btn" method="post">
+      <!-- <button @click.prevent="deleteUser(id)" class="btn" method="post">
         Delete user
-      </button>
+      </button> -->
     </form>
   </div>
 </template>
@@ -22,11 +22,10 @@ export default {
         this.user = result.data;
       });
     },
+
     deleteUser(id)
     // TODO grab the currently logged on user id stored by login in Vuex store
     {
-      this.$store.dispatch("deleteUser", id);
-
       let response = confirm("are you sure?");
       if (response) {
         this.$store.dispatch("deleteUser", id);
@@ -34,11 +33,20 @@ export default {
 
       // TODO add JWT token to request header
 
+      //   {
+      //     headers: {
+      //       "token": "token-value",
+      //     },
+      //   }
+      // );
+
       this.axios.delete("http://localhost:3000/user/" + id).then(() => {
         // TODO Vue code needs formatting (may need to install Vetur)
         this.getData();
         alert("successful");
+
         this.$router.push("/login");
+
       });
     },
   },
