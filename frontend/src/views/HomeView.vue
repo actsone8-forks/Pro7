@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <div class="row">
-      <div class="col-md-3 homeColumn">Chit-chat at work!</div>
+      <div class="col-md-3 homeColumn">
+        <UserCard :userInfo="userInfo" />
+      </div>
       <div class="col-md-9 homeColumn2">
         <CreatePost :posts="posts" @postTweet="postTweet" />
         <FeedPage :posts="posts" />
@@ -14,6 +16,7 @@
 <script>
 import CreatePost from "../components/CreatePost.vue";
 import FeedPage from "../components/FeedPage.vue";
+import UserCard from "../components/UserCard.vue";
 
 export default {
   name: "HomeView",
@@ -26,6 +29,7 @@ export default {
   components: {
     CreatePost,
     FeedPage,
+    UserCard,
   },
   methods: {
     postTweet(post) {
@@ -43,9 +47,10 @@ export default {
       ? JSON.parse(localStorage.getItem("user"))
       : null;
 
-    if (!this.user) {
-      this.$router.push({ name: "landingview" });
-    }
+    // if (!this.user) {
+    //   this.$router.push({ name: "landingview" });
+    // }
+
   },
 };
 </script>
