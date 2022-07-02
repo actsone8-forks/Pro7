@@ -1,18 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light navMain">
     <div class="container-fluid">
-      <router-link class="navbar-brand" to="/"
-        ><img src="../assets/icon-left-font.svg"
-      /></router-link>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <router-link class="navbar-brand" to="/"><img src="../assets/icon-left-font.svg" /></router-link>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -21,9 +12,9 @@
           <router-link class="nav-link" to="/about">About</router-link>
           <router-link class="nav-link" to="/signup">Signup</router-link>
           <router-link class="nav-link" to="/login">Login</router-link>
-          <router-link class="nav-link" to="/deleteuser"
-            >Delete User</router-link
-          >
+
+          <router-link class="nav-link" to="/deleteUser">Delete</router-link>
+          <button class="btn btn-primary" @click="logOut"> Logout</button>
         </div>
       </div>
     </div>
@@ -31,12 +22,23 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    logOut() {
+      localStorage.clear()
+      this.$router.push({ name: "About" });
+    }
+  },
+};
 </script>
 
 <style>
 img {
   height: 100px;
   width: 100px;
+}
+.navMain {
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 </style>
