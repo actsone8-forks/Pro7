@@ -77,27 +77,24 @@ exports.getAll = (req, res, next) => {
   })
 }
 
-exports.delete = (req, res) => {
-  const id = req.params.id;
-    // FIXME verify req.token.userId === req.params.id to prevent hackers from deleting other user accounts
-  db.User.destroy({
-    where:  {id: id }
-  })
-  .then(num => {
-		if (num === 1) {
-		  res.send({
-			message: "User was deleted successfully!"
-		  });
-		} else {
-		  res.send({
-			message: `Cannot delete user with id=${id}`
-		  });
-		}
-	  })
-	  .catch(err => {
-		res.status(500).send({
-		  message: "Could not delete User with id=" + id
-		});
-	  });
-  };
+exports.delete = async(req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await db.User.findOne({ where: { id: id } });
+    if (user && user.photo != null) {
+      const filename = user.photo.split("/upload")[1];
+      fs.unlink(`upload/${filename}`, () => {
+        // if photo exists it'll delete and the account
+        db.User.destroy({ where: { id: id } });
+        res.status(200).json({ messageReturn: "deleted user" });
+      });
+    } else {
+      db.User.destroy({ where: { id: id } }); // delete the account
+      res.status(200).json({ messageReturn: "deleted user" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ error: "Server error" });
+  }
+};
 
