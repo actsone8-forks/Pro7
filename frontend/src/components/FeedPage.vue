@@ -1,6 +1,8 @@
 <template>
   <div class="chat-box">
-    <div class="createPostRow" v-for="post in posts" :key="post.user">
+    <div class="createPostRow"  v-for="(post) in posts"
+      :key="post.user"
+    >
       <div class="iconCol">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
@@ -25,5 +27,9 @@ export default {
 };
 </script>
 
+
 <style>
+.createPostRow {
+  margin-bottom: 2rem;
+}
 </style>
