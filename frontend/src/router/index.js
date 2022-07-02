@@ -1,31 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import About from '../views/AboutView'
+import AboutView from '../views/AboutView'
 import HomeView from '../views/HomeView'
-import Login from '../views/LoginView'
-import Signup from '../views/SignupView'
+import LoginView from '../views/LoginView'
+import SignupView from '../views/SignupView'
 import DeleteUser from '../views/DeleteUser'
 import LandingView from '../views/LandingView'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'homeView',
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: About
+    path: '/aboutView',
+    name: 'aboutView',
+    component: AboutView
   },
   {
-    path: '/login',
-    name: 'login',
-    component: Login
+    path: '/loginView',
+    name: 'loginView',
+    component: LoginView
   },
   {
-    path: '/signup',
-    name: 'signup',
-    component: Signup
+    path: '/signupView',
+    name: 'signupView',
+    component: SignupView
   },
   {
     path: '/deleteUser',
@@ -33,8 +33,8 @@ const routes = [
     component: DeleteUser
   },
   {
-    path: '/landingview',
-    name: 'landingview',
+    path: '/landingView',
+    name: 'landingView',
     component: LandingView
   }
 ]
