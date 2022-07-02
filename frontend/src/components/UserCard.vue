@@ -10,13 +10,8 @@
       <h5 class="card-title" >{{ userInfo.username}}</h5>
       <p class="card-text">{{userInfo.email}}</p>
     </div>
-    <div v-else>
-      <p>Loading...</p>
-    </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">Account settings</li>
       <li class="list-group-item">
-        <button class="btn btn-primary">Tweet</button>
       </li>
     </ul>
   </div>
@@ -28,13 +23,13 @@ export default {
    userInfo: () => {
       return JSON.parse(localStorage.getItem("userInfo"))
       ? JSON.parse(localStorage.getItem("userInfo"))
-      : null
+      : {}
     },
   },
   mounted(){
-    // if(!this.userInfo){
-    //   location.reload()
-    // }
+    if (!this.userInfo) {
+      location.reload()
+    }
   },
 };
 </script>
