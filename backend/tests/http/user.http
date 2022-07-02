@@ -26,5 +26,6 @@ content-type: application/json
 }
 
 ###
-    DELETE {{baseUrl}}/10
+DELETE {{baseUrl}}/10
 
+    
