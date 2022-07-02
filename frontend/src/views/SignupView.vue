@@ -21,7 +21,7 @@
       <input v-model="email" type="text" class="form-control" id="email" />
       <label for="usr">Password:</label>
       <input v-model="password" type="password" class="form-control" id="pwd" />
-      <button @click.prevent="onSubmit" class="btn">Sign up</button>
+      <button @click.prevent="onSubmit" type="submit" class="btn btn-primary">Sign up</button>
     </form>
   </div>
 </template>
@@ -64,36 +64,5 @@ form {
   margin: auto;
   margin-top: 50px;
   margin-bottom: 80px;
-}
-label {
-  font-family: Monsterrat;
-  margin: auto;
-  margin-top: 5px;
-  margin-bottom: 8px;
-}
-button {
-  display: block;
-  background: #1c92d2;
-  padding: 14px 0;
-  color: black;
-  text-transform: uppercase;
-  cursor: pointer;
-  margin-top: 8px;
-  width: 100%;
-}
-button:hover {
-  background: beige;
-  transition: 0.5s;
-}
-.btn {
-  display: block;
-  background: #1c92d2;
-  padding: 8px 0;
-  color: black;
-  text-transform: uppercase;
-  cursor: pointer;
-  margin-top: 1px;
-  width: 100px;
-  margin: auto;
 }
 </style>
