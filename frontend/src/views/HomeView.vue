@@ -1,13 +1,12 @@
 <template>
-  <div class="home">
+  <div class="home">Hello
     <div class="row">
       <div class="col-md-3 homeColumn">
         <UserCard :userInfo="userInfo" />
       </div>
       <div class="col-md-9 homeColumn2">
-        <CreatePost :posts="posts" @postTweet="postTweet" />
+        <CreatePost :posts="posts" @postTweet="postTweet" :userInfo="userInfo" />
         <FeedPage :posts="posts" />
-        <DeleteUser />
       </div>
     </div>
   </div>
@@ -23,7 +22,8 @@ export default {
   data() {
     return {
       posts: [],
-      user: null,
+      user: [],
+      userInfo: [],
     };
   },
   components: {
@@ -36,7 +36,7 @@ export default {
       try {
         if (post.post === "" || post.user === "") throw "Input required";
         this.posts.unshift(post);
-        localStorage.setItem("posts", JSON.stringify(this.posts));
+        localStorage.setItem('posts', JSON.stringify(this.posts));
       } catch (error) {
         alert(error);
       }
@@ -45,26 +45,35 @@ export default {
   mounted() {
     this.user = JSON.parse(localStorage.getItem("user"))
       ? JSON.parse(localStorage.getItem("user"))
-      : null;
+      : {};
 
-    // if (!this.user) {
-    //   this.$router.push({ name: "landingview" });
-    // }
+    if (!this.user) {
+      this.$router.push({ name: "landingView" });
 
+    }
+    if (this.user && this.user.id) {
+      fetch(`http://localhost:3000/api/user/${this.user.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          localStorage.setItem("userInfo", JSON.stringify(data));
+        });
+
+    }
+    this.posts = JSON.parse(localStorage.getItem("posts"))
+      ? JSON.parse(localStorage.getItem("posts"))
+      : [];
+  },
+
+  computed: {
+    UserInfo: () => {
+      return JSON.parse(localStorage.getItem("userInfo"))
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : []
+    }
   },
 };
 </script>
 <style>
-.homeColumn {
-  height: 200px;
-  font-size: 30px;
-  color: #1c92d2;
-}
-
-.homeColumn2 {
-  height: 200px;
-}
-
 .home {
   margin: 2rem 5rem;
 }
