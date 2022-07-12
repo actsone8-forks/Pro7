@@ -27,31 +27,19 @@ export default {
   }),
   methods: {
     loginPage() {
-      console.log(this.email);
-      console.log(this.password);
-
-      fetch('http://localhost:3000/api/user/login', {
-        method: 'POST', // or 'PUT'
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: this.email,
-          password: this.password
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Success:', data);
-          if (data.token) {
-            localStorage.setItem('user', JSON.stringify(data))
-          }
-
-          this.$router.push({ name: "home" })
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+      try {
+        this.axios
+          .post("http://localhost:3000/api/user/login", {
+            email: this.email,
+            password: this.password,
+          })
+          .then((result) => {
+            this.$store.dispatch('login', { name: result.data.userId, id: result.data.userId });
+            this.$router.push("/");
+          });
+      } catch (e) {
+        this.error = "Invalid username/password";
+      }
     },
   },
 };
