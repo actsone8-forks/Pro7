@@ -1,26 +1,59 @@
+
+import axios from 'axios';
 import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    userId: null
-  },
-  getters: {
-    user(state) {
-      return state.userId
+    authenticatedUser: {
+      loggedIn: false,
+      name: '',
+      id: undefined,
     },
   },
-  mutations: {
-    // DELETE_USER(state, userId) {
-    //   let users = state.users.filter(u => u.id != userId)
-    //   state.users = users;
-    //   state.message = 'Account successfully deleted!!'
-    // },
-  },
-  actions: {
-    login({ state: state }, userId) {
-      state.userId = userId
+  getters: {
+    isLoggedIn (state) {
+      return state.authenticatedUser.loggedIn;
+    },
+    isLoggedOut (state) {
+      return !state.authenticatedUser.loggedIn;
+    },
+    userName (state) {
+      return state.authenticatedUser.name;
+    },
+    userId (state) {
+      return state.authenticatedUser.id;
     }
   },
-  modules: {
-  }
-})
+  mutations: {
+    setLoggedIn (state, { value }) {
+      state.authenticatedUser.loggedIn = value;
+    },
+    setAuthenticatedUser (state, { name, id }) {
+      state.authenticatedUser.name = name;
+      state.authenticatedUser.id = id;
+    },
+  },
+  actions: {
+    login ({ commit }, { name, id }) {
+      commit('setLoggedIn', { value: true });
+      commit('setAuthenticatedUser', { name, id });
+      localStorage.setItem('authenticatedUser', JSON.stringify({ name, id }));
+    },
+    logout ({ commit }) {
+      commit('setLoggedIn', { value: false });
+      commit('setAuthenticatedUser', { name: '', id: undefined });
+      localStorage.removeItem('authenticatedUser');
+    },
+    async delete ({ dispatch }, { userId, token, notifySuccess }) {
+      const config = {
+        headers: {
+          token,
+        },
+      };
+
+      await axios.delete('http://localhost:3000/api/user/' + userId, config);
+      dispatch('logout');
+      notifySuccess();      
+    }
+  },
+});
