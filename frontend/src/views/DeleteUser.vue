@@ -4,55 +4,31 @@
     <hr />
     <form>
       <h3>Delete your Groupomania account!</h3>
-      <!-- FIXME user is undefined here -->
-      <!-- <button @click.prevent="deleteUser(id)" class="btn" method="post">
-        Delete user
-      </button> -->
+      <button @click="deleteUser" class="btn btn-primary">
+        Delete account
+      </button>
     </form>
   </div>
 </template>
 <script>
 export default {
-  name: "DeleteUser",
+  name: "deleteUser",
   data() { },
   methods: {
-    getData() {
-      this.axios.get("http://localhost:3000/user").then((result) => {
-        console.warn(result);
-        this.user = result.data;
-      });
-    },
-
-    deleteUser(id)
-    // TODO grab the currently logged on user id stored by login in Vuex store
-    {
+    deleteUser() {
+      const userId = this.$store.getters.userId;
       let response = confirm("are you sure?");
       if (response) {
-        this.$store.dispatch("deleteUser", id);
+        const token = localStorage.getItem("token");
+        const notifySuccess = () => {
+          alert("successful");
+          this.$router.push("/login");
+        }
+         this.$store.dispatch("delete", { userId, token, notifySuccess });
       }
-
-      // TODO add JWT token to request header
-
-      //   {
-      //     headers: {
-      //       "token": "token-value",
-      //     },
-      //   }
-      // );
-
-      this.axios.delete("http://localhost:3000/user/" + id).then(() => {
-        // TODO Vue code needs formatting (may need to install Vetur)
-        this.getData();
-        alert("successful");
-
-        this.$router.push("/login");
-
-      });
     },
   },
-  mounted() {
-    this.getData();
-  },
+
 };
 </script>
 <style>
@@ -70,40 +46,6 @@ form {
   margin: auto;
   margin-top: 50px;
   margin-bottom: 80px;
-}
-
-label {
-  font-family: Monsterrat;
-  margin: auto;
-  margin-top: 5px;
-  margin-bottom: 8px;
-}
-
-button {
-  display: block;
-  background: #1c92d2;
-  padding: 14px 0;
-  color: black;
-  text-transform: uppercase;
-  cursor: pointer;
-  margin-top: 8px;
-  width: 100%;
-}
-
-button:hover {
-  background: beige;
-  transition: 0.5s;
-}
-
-.btn {
-  display: block;
-  background: #1c92d2;
-  padding: 8px 0;
-  color: black;
-  text-transform: uppercase;
-  cursor: pointer;
-  margin-top: 1px;
-  margin: auto;
 }
 
 h3,
