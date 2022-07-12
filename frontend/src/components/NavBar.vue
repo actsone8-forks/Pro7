@@ -11,10 +11,10 @@
           <router-link class="nav-link" to="/">Home</router-link>
           <router-link class="nav-link" to="/about">About</router-link>
           <router-link class="nav-link" to="/signup">Signup</router-link>
-          <router-link class="nav-link" to="/login">Login</router-link>
+          <router-link class="nav-link" v-if="isLoggedOut" to="/login">Login</router-link>
 
           <router-link class="nav-link" to="/deleteUser">Delete</router-link>
-          <button class="btn btn-primary" @click="logOut"> Logout</button>
+          <button class="btn btn-primary" v-if="isLoggedIn" @click="logOut"> Logout</button>
         </div>
       </div>
     </div>
@@ -23,10 +23,22 @@
 
 <script>
 export default {
+     computed: {
+        isLoggedIn () {
+            return this.$store.getters.isLoggedIn;
+        },
+        isLoggedOut () {
+            return !this.isLoggedIn;
+        },
+        userName () {
+            return this.$store.getters.userName;
+        }
+    },
   methods: {
     logOut() {
-      localStorage.clear()
-      this.$router.push({ name: "About" });
+      // localStorage.clear()
+      this.$store.dispatch('logout');
+      this.$router.push({ name: "aboutView" });
     }
   },
 };
