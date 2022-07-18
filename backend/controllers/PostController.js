@@ -9,9 +9,9 @@ exports.createPost = (req, res, next) => {
     console.log(req.body.post)
     const Post = new Post({
       message: req.body.message,
-      link: req.body.link,
-      imageUrl: imageUrl,
-      UserId: user.id,
+      //link: req.body.link,
+      //imageUrl: req.body.imageUrl,
+      userId: req.body.userId
       });
     
     Post.save().then(
