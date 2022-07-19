@@ -7,6 +7,7 @@ export default createStore({
     authenticatedUser: {
       loggedIn: false,
       name: '',
+      email: '',
       id: undefined,
     },
   },
@@ -20,6 +21,9 @@ export default createStore({
     userName (state) {
       return state.authenticatedUser.name;
     },
+    email (state) {
+      return state.authenticatedUser.email;
+    },
     userId (state) {
       return state.authenticatedUser.id;
     }
@@ -28,20 +32,23 @@ export default createStore({
     setLoggedIn (state, { value }) {
       state.authenticatedUser.loggedIn = value;
     },
-    setAuthenticatedUser (state, { name, id }) {
+    setAuthenticatedUser (state, { name, id, email}) {
       state.authenticatedUser.name = name;
+      state.authenticatedUser.email = email;
       state.authenticatedUser.id = id;
     },
   },
   actions: {
-    login ({ commit }, { name, id }) {
+    //TODO pass in token, add argument token
+    login ({ commit }, { name, id, email }) {
       commit('setLoggedIn', { value: true });
-      commit('setAuthenticatedUser', { name, id });
-      localStorage.setItem('authenticatedUser', JSON.stringify({ name, id }));
+      commit('setAuthenticatedUser', { name, id, email});
+      //TODO add anothr porperty called token
+      localStorage.setItem('authenticatedUser', JSON.stringify({ name, id, email }));
     },
     logout ({ commit }) {
       commit('setLoggedIn', { value: false });
-      commit('setAuthenticatedUser', { name: '', id: undefined });
+      commit('setAuthenticatedUser', { name: '', id: undefined, email:'' });
       localStorage.removeItem('authenticatedUser');
     },
     async delete ({ dispatch }, { userId, token, notifySuccess }) {
