@@ -37,8 +37,7 @@ export default {
   methods: {
     onSubmit() {
       this.axios.post("http://localhost:3000/api/user/signup", {
-        fistName: this.firstName,
-        lastName: this.lastName,
+        fullName: `${this.firstName} ${this.lastName}`,
         email: this.email,
         password: this.password,
       });
