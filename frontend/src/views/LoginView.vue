@@ -10,7 +10,7 @@
       <input v-model="email" type="text" class="form-control" id="usr" />
       <label for="usr">Password:</label>
       <input v-model="password" type="password" class="form-control" id="pwd" />
-      <button @click.prevent="loginPage"  type="submit" class="btn btn-primary">Login</button>
+      <button @click.prevent="loginPage" type="submit" class="btn btn-primary">Login</button>
     </form>
   </div>
 </template>
@@ -34,7 +34,8 @@ export default {
             password: this.password,
           })
           .then((result) => {
-            this.$store.dispatch('login', { name: result.data.userId, id: result.data.userId });
+            //FIXME get token from result.data.token and pass to login action 
+            this.$store.dispatch('login', { name: result.data.user.fullName, id: result.data.userId, email: result.data.user.email, token: result.data.token, });
             this.$router.push("/");
           });
       } catch (e) {
