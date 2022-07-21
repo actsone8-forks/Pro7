@@ -19,7 +19,10 @@ export default {
       const userId = this.$store.getters.userId;
       let response = confirm("are you sure?");
       if (response) {
-        const token = localStorage.getItem("token");
+        //FIXME change get token from new location, "authenticatedUser"
+        // then parse JSON string into javascript object (JSON.parse)
+        //then get token from js object
+        const token = JSON.parse(localStorage.getItem("authenticatedUser")).token
         const notifySuccess = () => {
           alert("successful");
           this.$router.push("/login");
