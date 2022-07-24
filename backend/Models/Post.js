@@ -3,13 +3,13 @@ const { sequelize , Sequelize } = require("sequelize");
 
 module.exports = (sequelize,Sequelize)=>{
     const Post = sequelize.define('Post',{
-        message : {
+        postText : {
             type:Sequelize.STRING
         },
        // postImg:{
             //type:Sequelize.STRING
        // },
-        userId:{
+        createdby:{
             type:Sequelize.INTEGER,
            
         }
