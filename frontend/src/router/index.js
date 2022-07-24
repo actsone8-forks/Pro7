@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView'
 import SignupView from '../views/SignupView'
 import DeleteUser from '../views/DeleteUser'
 import LandingView from '../views/LandingView'
+import { userCanAccessRoute } from '@/utils/authGuard'
 
 const routes = [
   {
@@ -42,6 +43,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
+
+router.beforeEach((to, from, next) => {
+  // Exclude login and signup pages from the auth guard
+  if (to.name === 'loginView' || to.name === 'signupView') {
+    next();
+  }
+  return userCanAccessRoute(to, from, next)
+})
 export default router

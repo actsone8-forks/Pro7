@@ -2,3 +2,14 @@
 @baseUrl = http://localhost:3000/api/posts
 ###
 GET {{baseUrl}}/ 
+
+###
+
+# adds a new posts
+POST {{baseUrl}}/add
+content-type: application/json
+
+{
+    "message": "Test post",
+    "userId": 8,
+}
