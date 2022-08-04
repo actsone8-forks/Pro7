@@ -1,15 +1,14 @@
 const db = require("../Models");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const User = db.User;
+const { User } = require("../Models");
 
 exports.login = async (req, res, next) => {
   const user = await User.findOne({
     where: {
       email: req.body.email
     }
-  })
-  console.log(user);
+  });
   if (!user) {
     return res.status(401).json({
       error: 'User not found!'
@@ -35,7 +34,7 @@ exports.login = async (req, res, next) => {
   ).catch(
     (error) => {
       return res.status(500).json({
-        error: error
+        error: error,
       });
     }
   );

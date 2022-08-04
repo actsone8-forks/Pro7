@@ -1,19 +1,35 @@
-const { sequelize , Sequelize } = require("sequelize");
+const { Sequelize } = require("sequelize");
+const sequelize = require("../config/sequelize");
+const User = require("./Users");
 
+const Post = sequelize.define(
+  "Posts",
+  {
+    message: {
+      type: Sequelize.STRING,
+    },
+    // postImg:{
+    //type:Sequelize.STRING
+    // },
+    userId: {
+      // Foreign key for user table
+      type: Sequelize.INTEGER,
 
-module.exports = (sequelize,Sequelize)=>{
-    const Post = sequelize.define('Post',{
-        postText : {
-            type:Sequelize.STRING
-        },
-       // postImg:{
-            //type:Sequelize.STRING
-       // },
-        createdby:{
-            type:Sequelize.INTEGER,
-           
-        }
-    })
+      references: {
+        model: User,
+        key: "id",
+      },
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+    },
+  },
+  {
+    tableName: "Posts",
+    updatedAt: false,
+  }
+);
 
-    return Post
-}
+Post.belongsTo(User, { foreignKey: "userId" });
+
+module.exports = Post;
