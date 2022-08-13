@@ -1,39 +1,21 @@
 <template>
   <div class="post-feed">
     <h2>Your timeline</h2>
-
-    <div class="post-item" v-for="post in posts" :key="post.user">
-      <div class="post-user-info">
-        <div class="post-user-image">
-          <img class="user-image" :src="getUserImage(post.User.id)" />
-        </div>
-
-        <h3 class="post-username">{{ post.User.fullName }}</h3>
-      </div>
-
-      <div>
-        <p class="post-message">{{ post.message }}</p>
-      </div>
-      <div class="post-date">
-        <p>{{ formatDate(post.createdAt) }}</p>
-      </div>
+    <div class="post-item" v-for="post in posts" :key="post.id">
+      <PostItem :post="post" />
     </div>
   </div>
 </template>
 
 <script>
-import dayjs from "dayjs";
+import PostItem from './PostItem.vue'
 
 export default {
   props: ["posts"],
-  methods: {
-    formatDate(date) {
-      return dayjs(date).format("HH:mm A, MMMM DD YYYY");
-    },
-    getUserImage(id) {
-      return "https://i.pravatar.cc/150?img=" + id;
-    },
+  components: {
+    PostItem
   },
+  mounted() {}
 };
 </script>
 

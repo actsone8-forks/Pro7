@@ -1,22 +1,30 @@
 const fs = require('fs');
-const {Post, User } = require("../Models"); 
-//const { post } = require('../Routes/UserRoutes');
-//const token = require("..middleware/token");
+const { Post, User, File } = require("../Models"); 
 
 
 exports.createPost = async (req, res, next) => {
-    console.log(typeof req.files);
-    console.log(req.body);
     try{
       const post = await Post.create({
         createdAt: new Date(),
-        message: req.body.message,
-        userId: req.body.userId,
+        message: req.body.post,
+        userId: Number(req.body.user),
         //TODO: add image
       });
+
+      await File.create({
+        name: req.files.file.name.split('.')[0],
+        data: req.files.file.data,
+        size: req.files.file.size,
+        type: req.files.file.mimetype,
+        createdAt: new Date(),
+        postId: post.id,
+      });
+
       res.status(201).json({
         message: "Post saved successfully!",
-        data: post,
+        data: {
+          ...post
+        },
       });
     } catch (error) {
       console.log(error);
@@ -68,26 +76,59 @@ exports.createPost = async (req, res, next) => {
 
 
 exports.getAllPosts = (req, res, next) => {
+  console.log('GEtting posts')
+  // We need to get all posts and all files and users associated with them
   Post.findAll({
     include: [
-      // Include will create a join with the corresponding table
+      {
+        model: File,
+        as : 'files',
+      },
       {
         model: User,
-        required: true,
-        attributes: ["fullName", "email"],
+        as : 'user',
       },
     ],
     order: [["createdAt", "DESC"]],
-  })
-    .then((posts) => {
+  }).then(
+    (posts) => {
+      console.log(posts);
       res.status(200).json(posts);
-    })
-    .catch((error) => {
+    }
+  ).catch(
+    (error) => {
       console.log(error);
       res.status(400).json({
         error: error,
       });
-    });
+    }
+  );
+
+  // Post.findAll({
+  //   include: [
+  //     // Include will create a join with the corresponding table
+  //     {
+  //       model: User,
+  //       required: true,
+  //       attributes: ["fullName", "email"],
+  //     },
+  //     {
+  //       model: File,
+  //       required: false,
+  //       attributes: ["name", "data", "size", "type"],
+  //     }
+  //   ],
+  //   order: [["createdAt", "DESC"]],
+  // })
+  //   .then((posts) => {
+  //     res.status(200).json(posts);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //     res.status(400).json({
+  //       error: error,
+  //     });
+  //   });
 };
 
 // exports.likePost = async (req, res, next) => {

@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../config/sequelize");
-const User = require("./Users");
 
 const Post = sequelize.define(
   "Posts",
@@ -8,17 +7,11 @@ const Post = sequelize.define(
     message: {
       type: Sequelize.STRING,
     },
-    // postImg:{
-    //type:Sequelize.STRING
-    // },
     userId: {
       // Foreign key for user table
       type: Sequelize.INTEGER,
-
-      references: {
-        model: User,
-        key: "id",
-      },
+      allowNull: false,
+   
     },
     createdAt: {
       type: Sequelize.DATE,
@@ -29,7 +22,5 @@ const Post = sequelize.define(
     updatedAt: false,
   }
 );
-
-Post.belongsTo(User, { foreignKey: "userId" });
 
 module.exports = Post;

@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../config/sequelize");
+
 const User = sequelize.define(
   "User",
   {
@@ -20,5 +21,7 @@ const User = sequelize.define(
     tableName: "Users",
   }
 );
+
+// User.hasMany(Post, { foreignKey: "userId", as: "posts" });
 
 module.exports = User;

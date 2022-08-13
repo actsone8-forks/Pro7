@@ -76,7 +76,7 @@ export default {
             Authorization: `Bearer ${this.$store.state.token}`,
           },
         });
-        console.log(result.data);
+        console.log('All posts Eelika created ;) ', result.data);
         this.posts = result.data;
         this.isLoading = false;
       } catch (error) {
