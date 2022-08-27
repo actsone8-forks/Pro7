@@ -43,6 +43,17 @@ export default {
     UserCard,
   },
   methods: {
+    viewTweet(/* userId, postId */) {
+      const body = {
+        postId: this.posts[0].id, 
+        userId: this.posts[0].user.id
+      }
+      this.axios.post('http://localhost:3000/api/posts/view', body,     {
+        headers: {
+          Authorization: `Bearer ${this.$store.state.token}`,
+        },
+      })
+    },
     async postTweet(post) {
       try {
         if (post.post === "" || post.user === "") throw "Input required";
@@ -76,7 +87,6 @@ export default {
             Authorization: `Bearer ${this.$store.state.token}`,
           },
         });
-        console.log('All posts Eelika created ;) ', result.data);
         this.posts = result.data;
         this.isLoading = false;
       } catch (error) {
@@ -84,8 +94,9 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getPosts();
+  async mounted() {
+    await this.getPosts();
+    this.viewTweet()
     // this.user = JSON.parse(localStorage.getItem("user"))
     //   ? JSON.parse(localStorage.getItem("user"))
     //   : {};

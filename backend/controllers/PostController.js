@@ -92,7 +92,6 @@ exports.getAllPosts = (req, res, next) => {
     order: [["createdAt", "DESC"]],
   }).then(
     (posts) => {
-      console.log(posts);
       res.status(200).json(posts);
     }
   ).catch(
@@ -192,4 +191,28 @@ exports.getAllPosts = (req, res, next) => {
 //   }
 // };
 
+
+exports.registerView = async (req, res) => {
+  try {
+    // UserId, postId
+    const { userId, postId } = req.body;
+    console.log('userId',userId)
+    console.log('postId',postId)
+    // 1. Retrieve post
+    const post = await Post.findOne({ where: { id : postId } });
+    
+    console.log('post', post)
+    if(!post){
+      return res.status(201).send({ error: 'OK'});
+    }
+    // 2. Check if user exists in views
+    let { views } = post
+    console.log(views)
+    views = views.includes(userId) ? views : [...views, userId]
+    // 3. Update post views list
+    Post.update({ where: { id : postId } }, { views })
+  } catch (error) {
+    return res.status(500).send({ error: 'An error occured'})
+  }
+}
   

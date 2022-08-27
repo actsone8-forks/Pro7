@@ -10,6 +10,8 @@ router.get("/", postsCtrl.getAllPosts);
 //router.post("/add", multer, postsCtrl.createPost);
 router.post("/add", postsCtrl.createPost);
 
+router.post('/view', postsCtrl.registerView)
+
 
 //router.get("/:id", auth, postsCtrl.getOnePost);
 

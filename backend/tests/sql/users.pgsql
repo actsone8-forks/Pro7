@@ -10,7 +10,3 @@ CREATE TABLE "Users"(
 
 INSERT INTO "Users" ("fullName", "email", "password", "isAdmin", "createdAt", "updatedAt")
 VALUES ('John Doe', 'john.doe@company.com', 'secret456', FALSE, current_timestamp, current_timestamp);
-
-SELECT "id", "fullName", "email", "password", "isAdmin", "createdAt", "updatedAt" FROM "Users" AS "User";
-
-DROP TABLE "Users";

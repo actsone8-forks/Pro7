@@ -11,11 +11,13 @@ const Post = sequelize.define(
       // Foreign key for user table
       type: Sequelize.INTEGER,
       allowNull: false,
-   
     },
     createdAt: {
       type: Sequelize.DATE,
     },
+    views: {
+      type: Sequelize.JSON
+    }
   },
   {
     tableName: "Posts",

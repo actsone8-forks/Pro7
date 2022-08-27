@@ -1,4 +1,3 @@
-const db = require("../Models");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const { User } = require("../Models");
@@ -80,18 +79,13 @@ exports.getAll = (req, res, next) => {
 exports.delete = async(req, res) => {
   try {
     const id = req.params.id;
-    const user = await db.User.findOne({ where: { id: id } });
+    const user = await User.findOne({ where: { id: id } });
     if (user && user.photo != null) {
       const filename = user.photo.split("/upload")[1];
-      fs.unlink(`upload/${filename}`, () => {
-        // if photo exists it'll delete and the account
-        db.User.destroy({ where: { id: id } });
-        res.status(200).json({ messageReturn: "deleted user" });
-      });
-    } else {
-      db.User.destroy({ where: { id: id } }); // delete the account
-      res.status(200).json({ messageReturn: "deleted user" });
-    }
+      fs.unlink(`upload/${filename}`, () => {});
+    } 
+    await User.destroy({ where: { id: id } })
+    res.status(200).json({ messageReturn: "deleted user" });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ error: "Server error" });

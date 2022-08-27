@@ -8,7 +8,6 @@ import Store from "../store";
  */
 export const userCanAccessRoute = (to, from, next) => {
   const isLoggedIn = Store.getters.isLoggedIn;
-  console.log("isLoggedIn", isLoggedIn);
   if (isLoggedIn) {
     // If the user is logged in, continue to the next (desired) page
     next();
