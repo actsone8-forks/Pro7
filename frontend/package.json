@@ -13,7 +13,9 @@
     "dayjs": "^1.11.4",
     "vue": "^3.2.13",
     "vue-axios": "^3.4.1",
+    "vue-final-modal": "^3.4.4",
     "vue-router": "^4.0.3",
+    "vue-universal-modal": "^1.1.4",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

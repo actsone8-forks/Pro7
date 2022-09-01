@@ -1,5 +1,5 @@
 <template>
-    <div class="post">
+    <div v-on:click="click()" class="post">
         <div class="post-user-info">
         <div class="post-user-image">
           <img class="user-image" :src="getUserImage" />
@@ -9,7 +9,7 @@
       </div>
 
       <div>
-        <p class="post-message">{{ post.message }}</p>
+        <p class="post-message">{{ truncateMessage }}</p>
       </div>
       <!-- Check if post contains files before rendering file -->
       <div v-if="this.post.files.length > 0" class="post-image">
@@ -25,7 +25,12 @@
 import dayjs from "dayjs";
 
 export default {
-  props: ["post"],
+  props: ["post", "onclick"],
+  methods: {
+    click() {
+      this.onclick(this.post);
+    }
+  },
   computed: {
     formatDate() {
       return dayjs(this.post.createdAt).format("HH:mm A, MMMM DD YYYY");
@@ -41,6 +46,9 @@ export default {
 
       return src
     },
+    truncateMessage() {
+      return this.post.message.substring(0, 45) + "...";
+    }
   },
 };
 </script>

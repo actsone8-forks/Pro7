@@ -1,16 +1,17 @@
 const fs = require('fs');
-const { Post, User, File } = require("../Models"); 
+const { Post, User, File } = require("../Models");
 
 
 exports.createPost = async (req, res, next) => {
-    try{
-      const post = await Post.create({
-        createdAt: new Date(),
-        message: req.body.post,
-        userId: Number(req.body.user),
-        //TODO: add image
-      });
+  try {
+    const post = await Post.create({
+      createdAt: new Date(),
+      message: req.body.post,
+      userId: Number(req.body.user),
+      //TODO: add image
+    });
 
+    if (req.files != null) {
       await File.create({
         name: req.files.file.name.split('.')[0],
         data: req.files.file.data,
@@ -19,22 +20,23 @@ exports.createPost = async (req, res, next) => {
         createdAt: new Date(),
         postId: post.id,
       });
-
-      res.status(201).json({
-        message: "Post saved successfully!",
-        data: {
-          ...post
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({
-        error: error,
-      }); 
     }
-  };
-    
-  
+
+    res.status(201).json({
+      message: "Post saved successfully!",
+      data: {
+        ...post
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+
 // exports.updatePost = (req, res, next) => {
 //         Post.updateOne({_id: req.params.id}, post).then(
 //           () => {
@@ -82,11 +84,11 @@ exports.getAllPosts = (req, res, next) => {
     include: [
       {
         model: File,
-        as : 'files',
+        as: 'files',
       },
       {
         model: User,
-        as : 'user',
+        as: 'user',
       },
     ],
     order: [["createdAt", "DESC"]],
@@ -154,7 +156,7 @@ exports.getAllPosts = (req, res, next) => {
 //     return res.status(500).send({ error: "Server error" });
 //   }
 // };
- 
+
 // exports.addComment = async (req, res) => {
 //   try {
 //     const comment = req.body.commentMessage;
@@ -196,23 +198,29 @@ exports.registerView = async (req, res) => {
   try {
     // UserId, postId
     const { userId, postId } = req.body;
-    console.log('userId',userId)
-    console.log('postId',postId)
     // 1. Retrieve post
-    const post = await Post.findOne({ where: { id : postId } });
-    
-    console.log('post', post)
-    if(!post){
-      return res.status(201).send({ error: 'OK'});
+    const post = await Post.findOne({ where: { id: postId } });
+
+    if (!post) {
+      return res.status(404).send({ error: 'Post not found' });
     }
     // 2. Check if user exists in views
     let { views } = post
+    // views is null/undefined
     console.log(views)
-    views = views.includes(userId) ? views : [...views, userId]
+    if (!views) {
+      views = []
+    }
+    // Check if user exists in views
+    if (views.includes(userId)) {
+      return res.status(200).send({ message: 'View already registered' });
+    }
     // 3. Update post views list
-    Post.update({ where: { id : postId } }, { views })
+    await Post.update({ where: { id: postId } }, { views: [...views, userId] });
+    res.status(200).send({ success: 'OK' });
   } catch (error) {
-    return res.status(500).send({ error: 'An error occured'})
+    console.log(error);
+    return res.status(500).send({ error: 'An error occured' })
   }
 }
-  
+

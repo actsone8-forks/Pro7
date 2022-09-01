@@ -16,7 +16,7 @@ const Post = sequelize.define(
       type: Sequelize.DATE,
     },
     views: {
-      type: Sequelize.JSON
+      type: Sequelize.ARRAY(Sequelize.INTEGER)
     }
   },
   {
