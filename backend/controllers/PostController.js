@@ -216,7 +216,7 @@ exports.registerView = async (req, res) => {
       return res.status(200).send({ message: 'View already registered' });
     }
     // 3. Update post views list
-    await Post.update({ where: { id: postId } }, { views: [...views, userId] });
+    await Post.update({ id: postId  }, { views: [...views, userId] });
     res.status(200).send({ success: 'OK' });
   } catch (error) {
     console.log(error);
