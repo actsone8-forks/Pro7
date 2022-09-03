@@ -26,17 +26,27 @@ export default {
       this.showModal = true;
       this.viewTweet(post);
     },
-    
-    viewTweet(post) {
+
+    async viewTweet(post) {
+      alert(post.message)
       const body = {
-        postId: post.id, 
-        userId: post.user.id // TODO: Change me
+        postId: post.id,
+        userId: this.$store.getters.userId,
+      };
+      try {
+        const result = await this.axios.post(
+          "http://localhost:3000/api/posts/view",
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+            },
+          }
+        );
+        console.log(result);
+      } catch (error) {
+        console.log(error);
       }
-      this.axios.post('http://localhost:3000/api/posts/view', body,     {
-        headers: {
-          Authorization: `Bearer ${this.$store.state.token}`,
-        },
-      })
     },
   },
 };

@@ -34,7 +34,10 @@ export default {
     postTweet() {
       let newPost = { user: this.userInfo.username, post: this.post, file: this.file };
       this.$emit("postTweet", newPost);
+      // Clear post message
       this.post = "";
+      // Clear file
+      document.getElementById("myFile").value = "";
     },
     onChangeFileUpload() {
       this.file = this.$refs.file.files[0];

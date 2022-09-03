@@ -1,18 +1,12 @@
 <template>
   <div class="card" style="width: 100%">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-      <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-      <path
-        d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z" />
-    </svg>
+    <img class="user-image" :src="getUserImage" />
     <div class="card-body">
-      <h5 class="card-title">{{ userName }}</h5>
-      <h5 class="card-title">{{ email }}</h5>
-      <!-- <p class="card-text">{{ userInfo.email }}</p> -->
+      <p class="card-title">{{ userName }}</p>
+      <p class="card-title">{{ email }}</p>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-      </li>
+      <li class="list-group-item"></li>
     </ul>
   </div>
 </template>
@@ -28,24 +22,40 @@ export default {
     },
     userName() {
       return this.$store.getters.userName;
-      
     },
-     email() {
+    email() {
       return this.$store.getters.email;
-    }
-  }
-
+    },
+    getUserImage() {
+      return "https://i.pravatar.cc/150?img=" + this.$store.getters.userId;
+    },
+  },
 };
 </script>
 
-<style>
-.card svg {
+<style scoped>
+.card {
   margin: 0 auto;
-  width: 150px;
-  height: 150px;
-  background: rgb(228, 224, 224);
-  padding-top: 1rem;
-  border-radius: 50%;
-  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  padding: 1vh;
+  align-items: center;
+  border-color: rgb(128, 152, 153);
+}
+
+.card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-user-image {
+  margin-right: 10px;
+}
+
+.user-image {
+  height: 85px;
+  width: 85px;
+  border-radius: 100%;
 }
 </style>

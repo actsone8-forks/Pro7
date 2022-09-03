@@ -1,24 +1,28 @@
 <template>
-    <div v-on:click="click()" class="post">
-        <div class="post-user-info">
-        <div class="post-user-image">
-          <img class="user-image" :src="getUserImage" />
-        </div>
-
-        <h3 class="post-username">{{ post.user.fullName }}</h3>
+  <div v-on:click="click()" class="post-item">
+    <div class="post-user-info">
+      <div class="post-user-image">
+        <img class="user-image" :src="getUserImage" />
       </div>
 
-      <div>
-        <p class="post-message">{{ truncateMessage }}</p>
-      </div>
-      <!-- Check if post contains files before rendering file -->
-      <div v-if="this.post.files.length > 0" class="post-image">
-        <img :src="getPostImage" />
-      </div>
-      <div class="post-date">
-        <p>{{ formatDate }}</p>
-      </div>
+      <h3 class="post-username">{{ post.user.fullName }}</h3>
     </div>
+
+    <div>
+      <p class="post-message">{{ truncateMessage }}</p>
+    </div>
+    <!-- Check if post contains files before rendering file -->
+    <div v-if="this.post.files.length > 0" class="post-image">
+      <img :src="getPostImage" />
+    </div>
+    <div class="post-date">
+      <p>{{ formatDate }}</p>
+    </div>
+    <div class="post-read">
+      <!-- <img :src="`${publicPath}view.png`"> -->
+      <p class="post-read-count">Read: {{ readCount }}</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,10 +30,16 @@ import dayjs from "dayjs";
 
 export default {
   props: ["post", "onclick"],
+  data() {
+    return {
+      publicPath: process.env.BASE_URL,
+    };
+  },
   methods: {
     click() {
+      console.log(this.publicPath);
       this.onclick(this.post);
-    }
+    },
   },
   computed: {
     formatDate() {
@@ -39,26 +49,39 @@ export default {
       return "https://i.pravatar.cc/150?img=" + this.post.user.id;
     },
     getPostImage() {
-      const src = 'data:' + this.post.files[0].type + ';base64,' + btoa(
-          new Uint8Array(this.post.files[0].data.data)
-          .reduce((data, byte) => data + String.fromCharCode(byte), '')
-      );
+      const src =
+        "data:" +
+        this.post.files[0].type +
+        ";base64," +
+        btoa(
+          new Uint8Array(this.post.files[0].data.data).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ""
+          )
+        );
 
-      return src
+      return src;
     },
     truncateMessage() {
-      return this.post.message.substring(0, 45) + "...";
-    }
+      return this.post.message.length > 45
+        ? this.post.message.substring(0, 45) + "..."
+        : this.post.message;
+    },
+    readCount() {
+      return !!this.post.views && !!this.post.views.length
+        ? this.post.views.length
+        : 0;
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .post-item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-items: center;
+  /* justify-items: center; */
   border-bottom: 1px solid #ccc;
   margin-top: 1em;
 }
@@ -95,5 +118,15 @@ export default {
   font-size: 0.8em;
   font-weight: 400;
   color: #414141;
+}
+
+.post-read {
+  align-self: right;
+  display: flex;
+}
+
+.post-read-count {
+  font-size: 0.7em;
+  color: #6b6b6b;
 }
 </style>

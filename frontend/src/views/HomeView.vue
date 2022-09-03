@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    Hello
     <div class="row">
       <div class="col-md-3 homeColumn">
         <UserCard :userInfo="userInfo" />

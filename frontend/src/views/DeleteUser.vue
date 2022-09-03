@@ -13,7 +13,7 @@
 <script>
 export default {
   name: "deleteUser",
-  data() { },
+  data() {},
   methods: {
     deleteUser() {
       const userId = this.$store.getters.userId;
@@ -22,19 +22,20 @@ export default {
         //FIXME change get token from new location, "authenticatedUser"
         // then parse JSON string into javascript object (JSON.parse)
         //then get token from js object
-        const token = JSON.parse(localStorage.getItem("authenticatedUser")).token
+        const token = JSON.parse(
+          localStorage.getItem("authenticatedUser")
+        ).token;
         const notifySuccess = () => {
           alert("successful");
           this.$router.push("/login");
-        }
-         this.$store.dispatch("delete", { userId, token, notifySuccess });
+        };
+        this.$store.dispatch("delete", { userId, token, notifySuccess });
       }
     },
   },
-
 };
 </script>
-<style>
+<style scoped>
 form {
   width: 40%;
   min-width: 350px;

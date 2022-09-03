@@ -204,10 +204,13 @@ exports.registerView = async (req, res) => {
     if (!post) {
       return res.status(404).send({ error: 'Post not found' });
     }
+
+    if (post.dataValues.userId === userId) {
+      return res.status(304).send({ error: 'Current users post' });
+    }
     // 2. Check if user exists in views
     let { views } = post
     // views is null/undefined
-    console.log(views)
     if (!views) {
       views = []
     }
@@ -216,8 +219,11 @@ exports.registerView = async (req, res) => {
       return res.status(200).send({ message: 'View already registered' });
     }
     // 3. Update post views list
-    await Post.update({ id: postId  }, { views: [...views, userId] });
-    res.status(200).send({ success: 'OK' });
+    // await Post.update({ id: postId  }, { views: [...views, userId] });
+    views =  [...views, userId]
+    console.log(views)
+    await post.update({ views })
+   await post.save();   res.status(200).send({ success: 'OK' });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ error: 'An error occured' })
