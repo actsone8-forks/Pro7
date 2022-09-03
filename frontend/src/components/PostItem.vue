@@ -9,7 +9,8 @@
     </div>
 
     <div>
-      <p class="post-message">{{ truncateMessage }}</p>
+      <p v-if="!post.views || (post.views && !post.views.includes(post.user.id))" class="post-message">{{ truncateMessage }}</p>
+      <p v-if="post.views && post.views.includes(post.user.id)" class="post-message post-message-read">{{ truncateMessage }}</p>
     </div>
     <!-- Check if post contains files before rendering file -->
     <div v-if="this.post.files.length > 0" class="post-image">
@@ -107,11 +108,16 @@ export default {
   font-size: 1em;
   align-self: flex-end;
 }
+
 .post-message {
   font-size: 1.2em;
-  font-weight: 400;
+  font-weight: bold;
   margin-top: 0.5em;
   text-align: start;
+}
+
+.post-message-read {
+  font-weight: 400;
 }
 
 .post-date {
