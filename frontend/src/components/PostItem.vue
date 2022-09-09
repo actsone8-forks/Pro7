@@ -8,13 +8,15 @@
       <h3 class="post-username">{{ post.user.fullName }}</h3>
     </div>
 
-    <div>
-      <p v-if="!post.views || (post.views && !post.views.includes(post.user.id))" class="post-message">{{ truncateMessage }}</p>
-      <p v-if="post.views && post.views.includes(post.user.id)" class="post-message post-message-read">{{ truncateMessage }}</p>
+    <div> 
+      <!-- <p v-if ="readCount>0" class="post-message post-message-read">{{
+      truncateMessage }}</p>
+      <p v-else  class="post-message">{{truncateMessage}}</p> -->
+      <p class="post-message" :class="getReadClass()">{{truncateMessage}}</p>
     </div>
     <!-- Check if post contains files before rendering file -->
     <div v-if="this.post.files.length > 0" class="post-image">
-      <img :src="getPostImage" />
+      <div :class="getReadClass()"><img :src="getPostImage" /></div>
     </div>
     <div class="post-date">
       <p>{{ formatDate }}</p>
@@ -41,6 +43,19 @@ export default {
       console.log(this.publicPath);
       this.onclick(this.post);
     },
+    getReadClass() {
+      const currentUserId = this.$store.getters.userId;
+      const postUserId = this.post.user.id;
+      const postViews = this.post.views ? Object.values(this.post.views):[];
+      console.log(postViews)
+      const isByCurrentUser = (postUserId == currentUserId);
+      const isRead =  postViews.includes(currentUserId);
+      let className = '';
+      if (isByCurrentUser || isRead) {
+        className = 'post-message-read';
+      }
+      return className;
+    }
   },
   computed: {
     formatDate() {
@@ -134,5 +149,8 @@ export default {
 .post-read-count {
   font-size: 0.7em;
   color: #6b6b6b;
+}
+.post-message-read img{
+opacity: 0.5;
 }
 </style>

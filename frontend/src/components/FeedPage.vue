@@ -44,6 +44,7 @@ export default {
           }
         );
         console.log(result);
+        location.reload();
       } catch (error) {
         console.log(error);
       }

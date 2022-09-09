@@ -15,7 +15,7 @@
           <i class="fa fa-file"></i>
         </button>
 
-        <button class="btn btn-primary" @click="postTweet">Tweet</button>
+        <button class="btn btn-primary" id="tweet-button" @click="postTweet">Tweet</button>
       </div>
     </div>
   </div>
@@ -57,7 +57,13 @@ export default {
 }
 
 .create-post-btns {
-  display: flex;
+  display: block;
   justify-content: space-between;
+  margin-right:100px;
+}
+#tweet-button{
+  display: inline;
+  margin-left: 190px;
+ 
 }
 </style>

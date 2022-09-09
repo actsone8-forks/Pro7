@@ -44,23 +44,21 @@ export default {
   methods: {
     async postTweet(post) {
       try {
-        if (post.post === "" || post.user === "") throw "Input required";
+        if ((!post.file && post.post === "") || post.user === "") throw "Input required";
         const user = JSON.parse(localStorage.getItem("authenticatedUser"));
         // Form datas are used to send files to the server
         const formData = new FormData();
-        formData.append('file', post.file);
-        formData.append('post', post.post);
-        formData.append('user', user.id);
+        formData.append("file", post.file);
+        formData.append("post", post.post);
+        formData.append("user", user.id);
 
-        await this.axios.post("http://localhost:3000/api/posts/add", formData,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-              // Setting content type to multipart/form-data will enable the server to handle the file upload
-              'Content-Type': 'multipart/form-data'
-            },
-          }
-        );
+        await this.axios.post("http://localhost:3000/api/posts/add", formData, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+            // Setting content type to multipart/form-data will enable the server to handle the file upload
+            "Content-Type": "multipart/form-data",
+          },
+        });
         this.getPosts();
       } catch (error) {
         alert(error);
@@ -84,23 +82,6 @@ export default {
   },
   async mounted() {
     await this.getPosts();
-    // this.user = JSON.parse(localStorage.getItem("user"))
-    //   ? JSON.parse(localStorage.getItem("user"))
-    //   : {};
-
-    // if (!this.user) {
-    //   this.$router.push({ name: "landingView" });
-    // }
-    // if (this.user && this.user.id) {
-    //   fetch(`http://localhost:3000/api/user/${this.user.id}`)
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       localStorage.setItem("userInfo", JSON.stringify(data));
-    //     });
-    // }
-    // this.posts = JSON.parse(localStorage.getItem("posts"))
-    //   ? JSON.parse(localStorage.getItem("posts"))
-    //   : [];
   },
 
   computed: {
