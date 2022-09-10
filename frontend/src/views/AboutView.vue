@@ -1,13 +1,19 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h3>Welcome to an internal social network for Groupomania's employees.</h3>
+      <h4>The goal of this application is to facilitate more interaction between colleagues.</h4>
   </div>
+  <h2>Let`s chat now!</h2>
 </template>
 <script>
 export default {};
 </script>
 
 <style>
+  .about{
+  text-align: center;
+  margin: 110px 50px 50px 50px;
+  }
 </style>
 
 

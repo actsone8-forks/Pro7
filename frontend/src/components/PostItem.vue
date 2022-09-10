@@ -2,19 +2,15 @@
   <div v-on:click="click()" class="post-item">
     <div class="post-user-info">
       <div class="post-user-image">
-        <img class="user-image" :src="getUserImage" />
+        <img class="user-image" :src="getUserImage" alt="avatar" />
       </div>
 
       <h3 class="post-username">{{ post.user.fullName }}</h3>
     </div>
 
     <div> 
-      <!-- <p v-if ="readCount>0" class="post-message post-message-read">{{
-      truncateMessage }}</p>
-      <p v-else  class="post-message">{{truncateMessage}}</p> -->
       <p class="post-message" :class="getReadClass()">{{truncateMessage}}</p>
     </div>
-    <!-- Check if post contains files before rendering file -->
     <div v-if="this.post.files.length > 0" class="post-image">
       <div :class="getReadClass()"><img :src="getPostImage" /></div>
     </div>
@@ -22,7 +18,6 @@
       <p>{{ formatDate }}</p>
     </div>
     <div class="post-read">
-      <!-- <img :src="`${publicPath}view.png`"> -->
       <p class="post-read-count">Read: {{ readCount }}</p>
     </div>
   </div>
@@ -97,7 +92,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* justify-items: center; */
   border-bottom: 1px solid #ccc;
   margin-top: 1em;
 }

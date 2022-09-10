@@ -28,7 +28,6 @@ export default {
   methods: {
     loginPageNew() {
       try {
-        // TODO: Read difference between Then and try catch https://stackoverflow.com/questions/42648956/what-is-faster-try-catch-vs-promise
         const result = this.axios.post("http://localhost:3000/api/user/login", {
           email: this.email,
           password: this.password,
@@ -52,7 +51,6 @@ export default {
           password: this.password,
         })
         .then((result) => {
-          //FIXME get token from result.data.token and pass to login action
           this.$store.dispatch("login", {
             name: result.data.user.fullName,
             id: result.data.userId,

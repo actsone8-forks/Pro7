@@ -44,7 +44,7 @@ export default {
 }
 
 .card-body {
-  display: flex;
+  display: inline-block;
   justify-content: center;
   align-items: center;
 }
